@@ -8,7 +8,6 @@ import android.databinding.ObservableField
 class BrowseViewModel(application: Application) : AndroidViewModel(application) {
 
     private var posts: LiveData<List<Post>>
-    private var postIdTemp: Int = 3
 
     val testString = ObservableField<String>("")
 
@@ -21,12 +20,11 @@ class BrowseViewModel(application: Application) : AndroidViewModel(application) 
 
     fun onClick() {
         testString.set(if (testString.get() == "Hi") "Hello" else "Hi")
-        addPost()
+        addPost(Post("Test post"))
     }
 
-    fun addPost() {
-        repository.insertPost(Post(postIdTemp, "Test post"))
-        postIdTemp++
+    fun addPost(post: Post) {
+        repository.insertPost(post)
     }
 
     fun getPosts(): LiveData<List<Post>> {

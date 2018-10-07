@@ -33,7 +33,6 @@ class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
     inner class PostViewHolder(val binding: PostItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.post = post
-//            binding.executePendingBindings()
         }
     }
 

@@ -31,7 +31,7 @@ class PostRepository(application: Application) {
     }
 
     companion object {
-        val MOCK_POST_DATA = listOf(Post(1, "post1"), Post(2, "post2"))
+        val MOCK_POST_DATA = listOf(Post("post1"), Post("post2"))
     }
 
     internal class InsertAsyncTask(private val asyncTaskDao: PostDao) : AsyncTask<Post, Void, Void>() {

@@ -20,10 +20,10 @@
         >
 
         <TextView
-            android:id="@+id/post_id"
+            android:id="@+id/post_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(post.id)}"
+            android:text="@{post.formattedDateString}"
             android:textSize="12sp"
             android:padding="8sp"
             android:gravity="center_vertical"
@@ -41,7 +41,7 @@
             android:text="@{post.content}"
             android:textSize="12sp"
             android:gravity="center_vertical"
-            app:layout_constraintStart_toEndOf="@id/post_id"
+            app:layout_constraintStart_toEndOf="@id/post_timestamp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Here is some post content."
