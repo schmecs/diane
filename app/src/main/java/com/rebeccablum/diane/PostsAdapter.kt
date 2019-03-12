@@ -1,9 +1,9 @@
 package com.rebeccablum.diane
 
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.rebeccablum.diane.databinding.PostItemBinding
 
 class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
@@ -11,8 +11,7 @@ class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = PostItemBinding.inflate(inflater)
-        return PostViewHolder(binding)
+        return PostViewHolder(PostItemBinding.inflate(inflater, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -30,7 +29,7 @@ class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class PostViewHolder(val binding: PostItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PostViewHolder(private val binding: PostItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.post = post
         }
@@ -52,6 +51,5 @@ class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             return oldList[oldItemPosition].content == newList[newItemPosition].content
         }
-
     }
 }

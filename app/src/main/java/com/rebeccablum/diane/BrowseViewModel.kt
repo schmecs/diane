@@ -1,9 +1,9 @@
 package com.rebeccablum.diane
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
-import android.databinding.ObservableField
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.databinding.ObservableField
 
 class BrowseViewModel(application: Application) : AndroidViewModel(application) {
 

@@ -1,13 +1,11 @@
 package com.rebeccablum.diane
 
 import android.app.Application
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import android.os.AsyncTask
 
 
 class PostRepository(application: Application) {
-
-    // TODO: hook this up to get and set data with database.
 
     private var postDao: PostDao
     private var postData: LiveData<List<Post>>
@@ -16,10 +14,6 @@ class PostRepository(application: Application) {
         val db = PostDatabase.getInstance(application)
         postDao = db.PostDao()
         postData = postDao.all()
-
-        // Temporary
-        insertPost(MOCK_POST_DATA[0])
-        insertPost(MOCK_POST_DATA[1])
     }
 
     fun getPosts(): LiveData<List<Post>> {

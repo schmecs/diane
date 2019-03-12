@@ -6,15 +6,12 @@
 
     <data>
 
-        <import type="android.view.View" />
-        <import type="java.lang.String" />
-
         <variable
             name="post"
             type="com.rebeccablum.diane.Post" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -47,6 +44,6 @@
             tools:text="Here is some post content."
             />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
