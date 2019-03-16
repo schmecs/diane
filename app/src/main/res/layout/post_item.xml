@@ -11,39 +11,47 @@
             type="com.rebeccablum.diane.Post" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         >
 
-        <TextView
-            android:id="@+id/post_timestamp"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{post.formattedDateString}"
-            android:textSize="12sp"
-            android:padding="8sp"
-            android:gravity="center_vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/post_content"
-            tools:text="1"
-            />
+            >
 
-        <TextView
-            android:id="@+id/post_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{post.content}"
-            android:textSize="12sp"
-            android:gravity="center_vertical"
-            app:layout_constraintStart_toEndOf="@id/post_timestamp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="Here is some post content."
-            />
+            <TextView
+                android:id="@+id/post_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{post.formattedDateString}"
+                android:textSize="12sp"
+                android:padding="8sp"
+                android:gravity="center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/post_content"
+                tools:text="1"
+                />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/post_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{post.content}"
+                android:textSize="12sp"
+                android:gravity="center_vertical"
+                app:layout_constraintStart_toEndOf="@id/post_timestamp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="Here is some post content."
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </layout>

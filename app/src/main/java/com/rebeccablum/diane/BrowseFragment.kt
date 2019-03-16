@@ -9,44 +9,43 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.rebeccablum.diane.databinding.FragmentBrowseBinding
 
 class BrowseFragment : Fragment() {
 
+    private val TAG = this.javaClass.simpleName
+
     private lateinit var binding: FragmentBrowseBinding
-    private lateinit var viewModel: BrowseViewModel
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PostsAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         binding = FragmentBrowseBinding.inflate(inflater, container, false).apply {
-            viewModel = viewModel
+            viewModel = (activity as HomeActivity).getBrowseViewModel()
         }
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setupAdapter()
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
-        viewModel = (activity as HomeActivity).getBrowseViewModel()
-        viewModel.getPosts().observe(this, Observer<List<Post>> { postList: List<Post>? ->
-            Log.d("Testing", postList?.size.toString())
-            if (postList != null) {
-                adapter.updatePostItems(postList)
-                showToast()
-            }
-        })
+        setupRecyclerView()
     }
 
-    private fun setupAdapter() {
-        adapter = PostsAdapter()
-
-        recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this.activity)
-        recyclerView.adapter = adapter
+    private fun setupRecyclerView() {
+        binding.viewModel?.let {
+            adapter = PostsAdapter()
+            it.getPostsFromRepository().observe(this, Observer<List<Post>> { postList: List<Post> ->
+                Log.d("Testing", postList.size.toString())
+                adapter.updatePostItems(postList)
+                showToast()
+            })
+            binding.recyclerView.adapter = adapter
+            binding.recyclerView.layoutManager = LinearLayoutManager(this.activity)
+        } ?: Log.d(TAG, "Viewmodel not initialized.")
     }
 
     private fun showToast() {

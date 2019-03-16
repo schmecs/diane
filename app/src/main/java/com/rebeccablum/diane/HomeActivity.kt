@@ -3,19 +3,20 @@ package com.rebeccablum.diane
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.rebeccablum.diane.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        homeViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(HomeViewModel::class.java)
-
-        setContentView(R.layout.activity_home)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        binding.viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(HomeViewModel::class.java)
 
         setupViewFragment()
         setupFab()

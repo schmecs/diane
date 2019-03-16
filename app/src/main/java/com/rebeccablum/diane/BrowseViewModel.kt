@@ -6,13 +6,13 @@ import androidx.lifecycle.LiveData
 
 class BrowseViewModel(context: Application, private val repository: PostRepository) : AndroidViewModel(context) {
 
-    private val posts: LiveData<List<Post>>
+    val posts: LiveData<List<Post>>
 
     init {
-        posts = getPosts()
+        posts = getPostsFromRepository()
     }
 
-    fun getPosts(): LiveData<List<Post>> {
+    fun getPostsFromRepository(): LiveData<List<Post>> {
         return repository.getPosts()
     }
 }
