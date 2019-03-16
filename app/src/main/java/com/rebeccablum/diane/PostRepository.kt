@@ -3,8 +3,9 @@ package com.rebeccablum.diane
 import android.app.Application
 import androidx.lifecycle.LiveData
 import android.os.AsyncTask
+import javax.inject.Singleton
 
-
+@Singleton
 class PostRepository(application: Application) {
 
     private var postDao: PostDao
@@ -25,7 +26,15 @@ class PostRepository(application: Application) {
     }
 
     companion object {
+        private var INSTANCE: PostRepository? = null
+
         val MOCK_POST_DATA = listOf(Post("post1"), Post("post2"))
+
+        @JvmStatic fun getInstance(application: Application) =
+                INSTANCE ?: synchronized(PostRepository::class.java) {
+                    INSTANCE ?: PostRepository(application)
+                            .also { INSTANCE = it }
+                }
     }
 
     internal class InsertAsyncTask(private val asyncTaskDao: PostDao) : AsyncTask<Post, Void, Void>() {
