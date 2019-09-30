@@ -18,15 +18,17 @@ abstract class PostDatabase : RoomDatabase() {
         private var INSTANCE: PostDatabase? = null
 
         fun getInstance(context: Context): PostDatabase =
-                INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: buildDatabase(context).also {
-                        INSTANCE = it
-                    }
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: buildDatabase(context).also {
+                    INSTANCE = it
                 }
+            }
 
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext,
-                        PostDatabase::class.java, DB_NAME)
-                        .build()
+            Room.databaseBuilder(
+                context.applicationContext,
+                PostDatabase::class.java, DB_NAME
+            )
+                .build()
     }
 }

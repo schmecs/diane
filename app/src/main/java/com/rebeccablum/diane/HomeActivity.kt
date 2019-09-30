@@ -19,7 +19,8 @@ class HomeActivity : AddPostDialog.PostResultListener, AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        binding.viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(HomeViewModel::class.java)
+        binding.viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(application))
+            .get(HomeViewModel::class.java)
 
         setupViewFragment()
         setupFab()
@@ -35,11 +36,15 @@ class HomeActivity : AddPostDialog.PostResultListener, AppCompatActivity() {
 
     private fun setupViewFragment() {
         supportFragmentManager.findFragmentById(R.id.contentFrame)
-                ?: supportFragmentManager.beginTransaction().replace(R.id.contentFrame, BrowseFragment()).commit()
+            ?: supportFragmentManager.beginTransaction().replace(
+                R.id.contentFrame,
+                BrowseFragment()
+            ).commit()
     }
 
     fun getBrowseViewModel(): BrowseViewModel {
-        return ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(BrowseViewModel::class.java)
+        return ViewModelProviders.of(this, ViewModelFactory.getInstance(application))
+            .get(BrowseViewModel::class.java)
     }
 
     private fun setupFab() {

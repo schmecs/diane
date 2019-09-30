@@ -6,7 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class HomeViewModel(context: Application, private val repository: PostRepository) : AndroidViewModel(context) {
+class HomeViewModel(context: Application, private val repository: PostRepository) :
+    AndroidViewModel(context) {
 
     val isAddingPost = ObservableBoolean(false)
 

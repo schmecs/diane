@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.dialog_new_post.*
 import com.rebeccablum.diane.databinding.DialogNewPostBinding
 
 class AddPostDialog() : DialogFragment() {
