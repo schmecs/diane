@@ -1,14 +1,17 @@
 package com.rebeccablum.diane
 
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.rebeccablum.diane.databinding.ActivityHomeBinding
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AddPostDialog.PostResultListener, AppCompatActivity() {
+
+    companion object {
+        const val TAG = "Home Activity"
+    }
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -22,6 +25,14 @@ class HomeActivity : AppCompatActivity() {
         setupFab()
     }
 
+    override fun onPostSaved(postText: String) {
+        binding.viewModel?.addPost(Post(content = postText))
+    }
+
+    override fun onPostCancelled() {
+        binding.viewModel?.setDoneAddingPost()
+    }
+
     private fun setupViewFragment() {
         supportFragmentManager.findFragmentById(R.id.contentFrame)
                 ?: supportFragmentManager.beginTransaction().replace(R.id.contentFrame, BrowseFragment()).commit()
@@ -32,11 +43,16 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupFab() {
-        // TODO: why is this nullable here & not in Google's example?
-        findViewById<FloatingActionButton>(R.id.fab_add_post)?.run {
-            setOnClickListener {
-                Toast.makeText(this@HomeActivity, "Add new post clicked", Toast.LENGTH_SHORT).show()
+        binding.viewModel?.isAddingPost?.onChanged { addingPost ->
+            if (addingPost) {
+                Log.d(TAG, "Adding post")
+                showNewPostDialog()
             }
         }
+    }
+
+    private fun showNewPostDialog() {
+        val dialog = AddPostDialog.newInstance()
+        dialog.show(supportFragmentManager, AddPostDialog.TAG)
     }
 }

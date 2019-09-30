@@ -24,23 +24,13 @@
             android:layout_height="match_parent"
             tools:include="@layout/fragment_browse"/>
 
-        <Button
-            android:id="@+id/button_hello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.onClick()}"
-            android:text="@{viewModel.testString}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="HI HELLO"
-            />
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_launcher_foreground"
+            android:onClick="@{() -> viewModel.onClick()}"
             app:fabSize="normal"
             app:layout_anchor="@id/contentFrame"
             app:layout_anchorGravity="bottom|right|end" />

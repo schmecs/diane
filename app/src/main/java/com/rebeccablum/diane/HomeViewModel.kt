@@ -1,23 +1,27 @@
 package com.rebeccablum.diane
 
 import android.app.Application
-import androidx.databinding.ObservableField
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class HomeViewModel(context: Application, private val repository: PostRepository) : AndroidViewModel(context) {
 
-    val testString = ObservableField<String>("")
-
-    init {
-        testString.set("Hi")
-    }
+    val isAddingPost = ObservableBoolean(false)
 
     fun onClick() {
-        testString.set(if (testString.get() == "Hi") "Hello" else "Hi")
-        addPost(Post("Test post"))
+        isAddingPost.set(true)
     }
 
-    private fun addPost(post: Post) {
-        repository.insertPost(post)
+    fun addPost(post: Post) {
+        GlobalScope.launch {
+            repository.insertPost(post)
+        }
+        setDoneAddingPost()
+    }
+
+    fun setDoneAddingPost() {
+        isAddingPost.set(false)
     }
 }
