@@ -21,8 +21,8 @@ class PostRepository(application: Application) {
         return postData
     }
 
-    fun insertPost(post: Post) {
-        InsertAsyncTask(postDao).execute(post)
+    suspend fun insertPost(post: Post) {
+        postDao.insert(post)
     }
 
     companion object {

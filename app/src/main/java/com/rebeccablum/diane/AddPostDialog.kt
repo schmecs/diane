@@ -5,11 +5,12 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
+import android.view.LayoutInflater
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import com.rebeccablum.diane.databinding.DialogNewPostBinding
+import com.rebeccablum.diane.databinding.DialogAddPostBinding
 
-class AddPostDialog() : DialogFragment() {
+class AddPostDialog : DialogFragment() {
 
     companion object {
         const val TAG = "Add Post Dialog"
@@ -20,35 +21,38 @@ class AddPostDialog() : DialogFragment() {
     }
 
     private lateinit var resultListener: PostResultListener
-    private lateinit var editText: EditText
-    private lateinit var binding: DialogNewPostBinding
+    private lateinit var binding: DialogAddPostBinding
 
     interface PostResultListener {
         fun onPostSaved(postText: String)
         fun onPostCancelled()
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
-        context?.let {
-            resultListener = context as PostResultListener
-        } ?: throw IllegalStateException("Context can't be null")
+        resultListener = context as PostResultListener
     }
 
-
-    // TODO RLB start here - need access to data binding to get edit text object
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        editText = binding.post_edit_text
-
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(activity),
+            R.layout.dialog_add_post,
+            null,
+            false
+        )
+        binding.addPostViewModel = (activity as HomeActivity).getAddPostViewModel()
         val title = "New memo"
         val builder = AlertDialog.Builder(activity)
-        builder.setView(R.layout.dialog_new_post)
+
+        builder.setView(binding.root)
         builder.setTitle(title)
         builder.setMessage("What would you like to tell me?")
         builder.setPositiveButton("Save") { _, _ ->
-            Log.d(TAG, "Save post at this point.")
-            val postText = editText.text.toString()
-            resultListener.onPostSaved(postText)
+            binding.addPostViewModel?.currentText?.get()?.let {
+                resultListener.onPostSaved(it)
+            } ?: run {
+                Log.e(TAG, "Post text is null.")
+            }
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
             resultListener.onPostCancelled()

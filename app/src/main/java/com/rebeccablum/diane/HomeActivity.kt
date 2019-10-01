@@ -27,6 +27,7 @@ class HomeActivity : AddPostDialog.PostResultListener, AppCompatActivity() {
     }
 
     override fun onPostSaved(postText: String) {
+        Log.d(TAG, "Post content: $postText")
         binding.viewModel?.addPost(Post(content = postText))
     }
 
@@ -45,6 +46,11 @@ class HomeActivity : AddPostDialog.PostResultListener, AppCompatActivity() {
     fun getBrowseViewModel(): BrowseViewModel {
         return ViewModelProviders.of(this, ViewModelFactory.getInstance(application))
             .get(BrowseViewModel::class.java)
+    }
+
+    fun getAddPostViewModel(): AddPostViewModel {
+        return ViewModelProviders.of(this, ViewModelFactory.getInstance(application))
+            .get(AddPostViewModel::class.java)
     }
 
     private fun setupFab() {

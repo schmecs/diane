@@ -5,9 +5,12 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class HomeViewModel(context: Application, private val repository: PostRepository) :
     AndroidViewModel(context) {
+
+    private val TAG = this.javaClass.simpleName
 
     val isAddingPost = ObservableBoolean(false)
 
@@ -16,8 +19,10 @@ class HomeViewModel(context: Application, private val repository: PostRepository
     }
 
     fun addPost(post: Post) {
-        GlobalScope.launch {
-            repository.insertPost(post)
+        runBlocking {
+            GlobalScope.launch {
+                repository.insertPost(post)
+            }
         }
         setDoneAddingPost()
     }

@@ -32,6 +32,8 @@ class ViewModelFactory private constructor(
                     HomeViewModel(application, postRepository)
                 isAssignableFrom(BrowseViewModel::class.java) ->
                     BrowseViewModel(application, postRepository)
+                isAssignableFrom(AddPostViewModel::class.java) ->
+                    AddPostViewModel(application)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

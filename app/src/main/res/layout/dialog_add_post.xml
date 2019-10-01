@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="addPostViewModel"
+            type="com.rebeccablum.diane.AddPostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,8 +18,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:autofillHints="Type your note here."
             android:inputType="text"
+            android:onTextChanged="@{(s, start, before, count) -> addPostViewModel.onTextChanged(s)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
