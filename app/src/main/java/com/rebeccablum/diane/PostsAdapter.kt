@@ -1,6 +1,5 @@
 package com.rebeccablum.diane
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -21,7 +20,6 @@ class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
-        Log.d("Adapter", "Binding post: ${post.id}")
         holder.bind(post)
     }
 
@@ -32,13 +30,15 @@ class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class PostViewHolder(private val binding: PostItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PostViewHolder(private val binding: PostItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.post = post
         }
     }
 
-    inner class PostDiffCallback(private val oldList: List<Post>, private val newList: List<Post>) : DiffUtil.Callback() {
+    inner class PostDiffCallback(private val oldList: List<Post>, private val newList: List<Post>) :
+        DiffUtil.Callback() {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             return oldList[oldItemPosition].id == newList[newItemPosition].id
         }

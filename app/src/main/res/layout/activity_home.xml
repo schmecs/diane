@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.rebeccablum.diane.HomeViewModel"
-            />
+            type="com.rebeccablum.diane.HomeViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -22,24 +19,14 @@
             android:id="@+id/contentFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:include="@layout/fragment_browse"/>
-
-        <Button
-            android:id="@+id/button_hello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.onClick()}"
-            android:text="@{viewModel.testString}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="HI HELLO"
-            />
+            tools:include="@layout/fragment_browse" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
+            android:onClick="@{() -> viewModel.onClick()}"
             android:src="@drawable/ic_launcher_foreground"
             app:fabSize="normal"
             app:layout_anchor="@id/contentFrame"

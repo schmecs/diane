@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 
-class BrowseViewModel(context: Application, private val repository: PostRepository) : AndroidViewModel(context) {
+class BrowseViewModel(context: Application, private val repository: PostRepository) :
+    AndroidViewModel(context) {
 
     val posts: LiveData<List<Post>>
 

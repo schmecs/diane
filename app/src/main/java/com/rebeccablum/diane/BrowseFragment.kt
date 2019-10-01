@@ -18,7 +18,11 @@ class BrowseFragment : Fragment() {
     private lateinit var binding: FragmentBrowseBinding
     private lateinit var adapter: PostsAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         binding = FragmentBrowseBinding.inflate(inflater, container, false).apply {
             viewModel = (activity as HomeActivity).getBrowseViewModel()
