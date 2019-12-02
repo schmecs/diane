@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.rebeccablum.diane.databinding.ActivityHomeBinding
 
@@ -14,13 +15,16 @@ class HomeActivity : AddPostDialog.PostResultListener, AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityHomeBinding
+    // TODO right way to do this
+    lateinit var viewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        binding.viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(application))
+        viewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(application))
             .get(HomeViewModel::class.java)
+        binding.viewModel = viewModel
 
         setupViewFragment()
         setupFab()
@@ -32,7 +36,12 @@ class HomeActivity : AddPostDialog.PostResultListener, AppCompatActivity() {
     }
 
     override fun onPostCancelled() {
-        binding.viewModel?.setDoneAddingPost()
+        binding.viewModel?.onPostCancelled()
+    }
+
+    fun getAddPostViewModel(): AddPostViewModel {
+        return ViewModelProviders.of(this, ViewModelFactory.getInstance(application))
+            .get(AddPostViewModel::class.java)
     }
 
     private fun setupViewFragment() {
@@ -43,23 +52,10 @@ class HomeActivity : AddPostDialog.PostResultListener, AppCompatActivity() {
             ).commit()
     }
 
-    fun getBrowseViewModel(): BrowseViewModel {
-        return ViewModelProviders.of(this, ViewModelFactory.getInstance(application))
-            .get(BrowseViewModel::class.java)
-    }
-
-    fun getAddPostViewModel(): AddPostViewModel {
-        return ViewModelProviders.of(this, ViewModelFactory.getInstance(application))
-            .get(AddPostViewModel::class.java)
-    }
-
     private fun setupFab() {
-        binding.viewModel?.isAddingPost?.onChanged { addingPost ->
-            if (addingPost) {
-                Log.d(TAG, "Adding post")
-                showNewPostDialog()
-            }
-        }
+        binding.viewModel?.addPostClickEvent?.observe(this, Observer {
+            showNewPostDialog()
+        })
     }
 
     private fun showNewPostDialog() {

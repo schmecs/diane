@@ -25,7 +25,7 @@ class BrowseFragment : Fragment() {
     ): View? {
 
         binding = FragmentBrowseBinding.inflate(inflater, container, false).apply {
-            viewModel = (activity as HomeActivity).getBrowseViewModel()
+            viewModel = (activity as HomeActivity).viewModel
         }
 
         return binding.root
@@ -42,7 +42,7 @@ class BrowseFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.viewModel?.let {
             adapter = PostsAdapter()
-            it.getPostsFromRepository().observe(this, Observer<List<Post>> { postList: List<Post> ->
+            it.postData.observe(this, Observer<List<Post>> { postList: List<Post> ->
                 Log.d("Testing", postList.size.toString())
                 adapter.updatePostItems(postList)
                 showToast()

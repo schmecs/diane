@@ -3,22 +3,22 @@ package com.rebeccablum.diane
 import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.coroutineScope
 import javax.inject.Singleton
 
 @Singleton
 class PostRepository(application: Application) {
 
     private var postDao: PostDao
-    private var postData: LiveData<List<Post>>
 
     init {
         val db = PostDatabase.getInstance(application)
         postDao = db.PostDao()
-        postData = postDao.all()
     }
 
-    fun getPosts(): LiveData<List<Post>> {
-        return postData
+    suspend fun fetchPosts(): List<Post> {
+        return postDao.all()
     }
 
     suspend fun insertPost(post: Post) {
@@ -36,14 +36,5 @@ class PostRepository(application: Application) {
                 INSTANCE ?: PostRepository(application)
                     .also { INSTANCE = it }
             }
-    }
-
-    internal class InsertAsyncTask(private val asyncTaskDao: PostDao) :
-        AsyncTask<Post, Void, Void>() {
-
-        override fun doInBackground(vararg params: Post): Void? {
-            asyncTaskDao.insert(params[0])
-            return null
-        }
     }
 }

@@ -7,20 +7,20 @@ import androidx.room.*
 interface PostDao {
 
     @Query("SELECT * FROM post")
-    fun all(): LiveData<List<Post>>
+    suspend fun all(): List<Post>
 
     @Insert
-    fun insertAll(users: List<Post>)
+    suspend fun insertAll(users: List<Post>)
 
     @Insert
-    fun insert(post: Post)
+    suspend fun insert(post: Post)
 
     @Update
-    fun update(post: Post)
+    suspend fun update(post: Post)
 
     @Delete
-    fun delete(post: Post)
+    suspend fun delete(post: Post)
 
     @Query("DELETE FROM post")
-    fun deleteAll()
+    suspend fun deleteAll()
 }

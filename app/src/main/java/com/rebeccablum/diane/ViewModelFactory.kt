@@ -29,11 +29,9 @@ class ViewModelFactory private constructor(
         with(modelClass) {
             when {
                 isAssignableFrom(HomeViewModel::class.java) ->
-                    HomeViewModel(application, postRepository)
-                isAssignableFrom(BrowseViewModel::class.java) ->
-                    BrowseViewModel(application, postRepository)
+                    HomeViewModel(postRepository)
                 isAssignableFrom(AddPostViewModel::class.java) ->
-                    AddPostViewModel(application)
+                    AddPostViewModel()
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

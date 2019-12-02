@@ -1,10 +1,9 @@
 package com.rebeccablum.diane
 
-import android.app.Application
 import androidx.databinding.ObservableField
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 
-class AddPostViewModel(context: Application) : AndroidViewModel(context) {
+class AddPostViewModel : ViewModel() {
 
     val currentText = ObservableField("")
 

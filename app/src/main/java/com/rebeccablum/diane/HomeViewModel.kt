@@ -1,33 +1,52 @@
 package com.rebeccablum.diane
 
-import android.app.Application
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.AndroidViewModel
-import kotlinx.coroutines.GlobalScope
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
-class HomeViewModel(context: Application, private val repository: PostRepository) :
-    AndroidViewModel(context) {
+class HomeViewModel(private val repository: PostRepository) : ViewModel() {
 
     private val TAG = this.javaClass.simpleName
 
+    private val mutablePostData = MutableLiveData<List<Post>>()
+    val postData: LiveData<List<Post>> by lazy {
+        fetchPosts()
+        return@lazy mutablePostData
+    }
+
     val isAddingPost = ObservableBoolean(false)
+    internal val addPostClickEvent = SingleLiveEvent<Void>()
 
     fun onClick() {
-        isAddingPost.set(true)
+        addPostClickEvent.call()
     }
 
     fun addPost(post: Post) {
-        runBlocking {
-            GlobalScope.launch {
-                repository.insertPost(post)
+        viewModelScope.launch {
+            repository.insertPost(post)
+            withContext(Dispatchers.Main) {
+                onPostAdded()
             }
         }
-        setDoneAddingPost()
     }
 
-    fun setDoneAddingPost() {
+    fun onPostAdded() {
         isAddingPost.set(false)
+        fetchPosts()
+    }
+
+    fun onPostCancelled() {
+        isAddingPost.set(false)
+    }
+
+    private fun fetchPosts() {
+        viewModelScope.launch {
+            mutablePostData.value = repository.fetchPosts()
+        }
     }
 }
