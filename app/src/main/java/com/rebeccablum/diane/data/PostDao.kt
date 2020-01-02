@@ -1,7 +1,7 @@
-package com.rebeccablum.diane
+package com.rebeccablum.diane.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.rebeccablum.diane.models.Post
 
 @Dao
 interface PostDao {

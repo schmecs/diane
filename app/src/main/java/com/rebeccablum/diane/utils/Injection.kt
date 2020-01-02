@@ -1,6 +1,7 @@
-package com.rebeccablum.diane
+package com.rebeccablum.diane.utils
 
 import android.app.Application
+import com.rebeccablum.diane.data.PostRepository
 
 object Injection {
 

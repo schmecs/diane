@@ -1,9 +1,10 @@
-package com.rebeccablum.diane
+package com.rebeccablum.diane.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.rebeccablum.diane.models.Post
 import com.rebeccablum.diane.databinding.PostItemBinding
 
 class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {

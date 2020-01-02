@@ -1,9 +1,10 @@
-package com.rebeccablum.diane
+package com.rebeccablum.diane.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.rebeccablum.diane.models.Post
 
 
 @Database(entities = arrayOf(Post::class), version = 1)
@@ -19,7 +20,8 @@ abstract class PostDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): PostDatabase =
             INSTANCE ?: synchronized(this) {
-                INSTANCE ?: buildDatabase(context).also {
+                INSTANCE
+                    ?: buildDatabase(context).also {
                     INSTANCE = it
                 }
             }
@@ -27,7 +29,8 @@ abstract class PostDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
-                PostDatabase::class.java, DB_NAME
+                PostDatabase::class.java,
+                DB_NAME
             )
                 .build()
     }

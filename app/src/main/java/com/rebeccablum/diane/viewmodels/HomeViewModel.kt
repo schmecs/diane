@@ -1,17 +1,19 @@
-package com.rebeccablum.diane
+package com.rebeccablum.diane.viewmodels
 
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import com.rebeccablum.diane.models.Post
+import com.rebeccablum.diane.data.PostRepository
+import com.rebeccablum.diane.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class HomeViewModel(private val repository: PostRepository) : ViewModel() {
 
-    private val TAG = this.javaClass.simpleName
+    companion object {
+        private val TAG = HomeViewModel::class.java.simpleName
+    }
 
     private val mutablePostData = MutableLiveData<List<Post>>()
     val postData: LiveData<List<Post>> by lazy {
@@ -19,7 +21,6 @@ class HomeViewModel(private val repository: PostRepository) : ViewModel() {
         return@lazy mutablePostData
     }
 
-    val isAddingPost = ObservableBoolean(false)
     internal val addPostClickEvent = SingleLiveEvent<Void>()
 
     fun onClick() {
@@ -29,19 +30,9 @@ class HomeViewModel(private val repository: PostRepository) : ViewModel() {
     fun addPost(post: Post) {
         viewModelScope.launch {
             repository.insertPost(post)
-            withContext(Dispatchers.Main) {
-                onPostAdded()
-            }
+            // TODO what is the right way to reload posts after successful add?
+            mutablePostData.value = repository.fetchPosts()
         }
-    }
-
-    fun onPostAdded() {
-        isAddingPost.set(false)
-        fetchPosts()
-    }
-
-    fun onPostCancelled() {
-        isAddingPost.set(false)
     }
 
     private fun fetchPosts() {

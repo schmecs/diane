@@ -5,11 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rebeccablum.diane.adapters.PostsAdapter
 import com.rebeccablum.diane.databinding.FragmentBrowseBinding
+import com.rebeccablum.diane.models.Post
 
 class BrowseFragment : Fragment() {
 
@@ -45,14 +46,9 @@ class BrowseFragment : Fragment() {
             it.postData.observe(this, Observer<List<Post>> { postList: List<Post> ->
                 Log.d("Testing", postList.size.toString())
                 adapter.updatePostItems(postList)
-                showToast()
             })
             binding.recyclerView.adapter = adapter
             binding.recyclerView.layoutManager = LinearLayoutManager(this.activity)
         } ?: Log.d(TAG, "Viewmodel not initialized.")
-    }
-
-    private fun showToast() {
-        Toast.makeText(this.activity, "Observed change!", Toast.LENGTH_LONG).show()
     }
 }

@@ -1,4 +1,4 @@
-package com.rebeccablum.diane
+package com.rebeccablum.diane.utils
 
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean

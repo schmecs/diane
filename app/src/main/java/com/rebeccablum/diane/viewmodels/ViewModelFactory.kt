@@ -1,8 +1,10 @@
-package com.rebeccablum.diane
+package com.rebeccablum.diane.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.rebeccablum.diane.utils.Injection
+import com.rebeccablum.diane.data.PostRepository
 
 class ViewModelFactory private constructor(
     private val application: Application,
@@ -14,11 +16,13 @@ class ViewModelFactory private constructor(
         private var INSTANCE: ViewModelFactory? = null
 
         fun getInstance(application: Application): ViewModelFactory {
-            return INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                INSTANCE ?: ViewModelFactory(
-                    application,
-                    Injection.providePostRepository(application)
-                )
+            return INSTANCE ?: synchronized(
+                ViewModelFactory::class.java) {
+                INSTANCE
+                    ?: ViewModelFactory(
+                        application,
+                        Injection.providePostRepository(application)
+                    )
                     .also { INSTANCE = it }
             }
         }
@@ -31,7 +35,7 @@ class ViewModelFactory private constructor(
                 isAssignableFrom(HomeViewModel::class.java) ->
                     HomeViewModel(postRepository)
                 isAssignableFrom(AddPostViewModel::class.java) ->
-                    AddPostViewModel()
+                    AddPostViewModel(application)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

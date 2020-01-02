@@ -1,29 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="addPostViewModel"
-            type="com.rebeccablum.diane.AddPostViewModel" />
+            type="com.rebeccablum.diane.viewmodels.AddPostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/post_edit_text"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/post_text_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:inputType="text"
-            android:onTextChanged="@{(s, start, before, count) -> addPostViewModel.onTextChanged(s)}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:hint="Enter text here."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/post_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/record_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@{addPostViewModel.isRecording() ? addPostViewModel.stopRecording : addPostViewModel.startRecording}"
+            android:onClick="@{() -> addPostViewModel.toggleRecording(!addPostViewModel.isRecording())}"
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline_50pct"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_text_input"
+            tools:text="Start Recording" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vertical_guideline_50pct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <Button
+            android:id="@+id/playback_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@{addPostViewModel.isPlaying() ? addPostViewModel.stopPlayback : addPostViewModel.startPlayback}"
+            android:onClick="@{() -> addPostViewModel.togglePlayback(!addPostViewModel.isPlaying())}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/vertical_guideline_50pct"
+            app:layout_constraintTop_toBottomOf="@+id/post_text_input"
+            tools:text="Start Playback" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

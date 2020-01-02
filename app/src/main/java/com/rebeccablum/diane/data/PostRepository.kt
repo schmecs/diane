@@ -1,10 +1,7 @@
-package com.rebeccablum.diane
+package com.rebeccablum.diane.data
 
 import android.app.Application
-import android.os.AsyncTask
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.coroutineScope
+import com.rebeccablum.diane.models.Post
 import javax.inject.Singleton
 
 @Singleton
@@ -28,12 +25,17 @@ class PostRepository(application: Application) {
     companion object {
         private var INSTANCE: PostRepository? = null
 
-        val MOCK_POST_DATA = listOf(Post("post1"), Post("post2"))
+        val MOCK_POST_DATA = listOf(
+            Post(content = "post1", fileName = "test_file_name_1"),
+            Post(content = "post2", fileName = "test_file_name_2")
+        )
 
         @JvmStatic
         fun getInstance(application: Application) =
-            INSTANCE ?: synchronized(PostRepository::class.java) {
-                INSTANCE ?: PostRepository(application)
+            INSTANCE
+                ?: synchronized(PostRepository::class.java) {
+                INSTANCE
+                    ?: PostRepository(application)
                     .also { INSTANCE = it }
             }
     }
