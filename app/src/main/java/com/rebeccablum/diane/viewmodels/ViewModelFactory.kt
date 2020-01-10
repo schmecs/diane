@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.rebeccablum.diane.utils.Injection
 import com.rebeccablum.diane.data.PostRepository
+import com.rebeccablum.diane.media.PlaybackManager
 
 class ViewModelFactory private constructor(
     private val application: Application,
@@ -32,10 +33,12 @@ class ViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
+                isAssignableFrom(SignInViewModel::class.java) ->
+                    SignInViewModel()
                 isAssignableFrom(HomeViewModel::class.java) ->
                     HomeViewModel(postRepository)
                 isAssignableFrom(AddPostViewModel::class.java) ->
-                    AddPostViewModel(application)
+                    AddPostViewModel(application, PlaybackManager.getInstance(application))
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

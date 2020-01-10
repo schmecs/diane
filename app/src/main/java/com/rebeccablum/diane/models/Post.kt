@@ -9,8 +9,8 @@ import java.util.*
 @Entity
 data class Post(
     @ColumnInfo(name = "content") val content: String,
-    @ColumnInfo(name = "created_at") val timestamp: Long = System.currentTimeMillis(),
     @ColumnInfo(name = "file_name") val fileName: String,
+    @ColumnInfo(name = "created_at") val timestamp: Long = System.currentTimeMillis(),
     @PrimaryKey @ColumnInfo(name = "post_id") val id: String = UUID.randomUUID().toString()
 ) {
 

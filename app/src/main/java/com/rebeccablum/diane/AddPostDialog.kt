@@ -2,11 +2,11 @@ package com.rebeccablum.diane
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -14,31 +14,20 @@ import com.google.android.material.textfield.TextInputEditText
 import com.rebeccablum.diane.databinding.DialogAddPostBinding
 import com.rebeccablum.diane.viewmodels.AddPostViewModel
 
+// TODO handle recording on rotation
 class AddPostDialog : DialogFragment() {
 
     companion object {
-        const val TAG = "Add Post Dialog"
-
-        fun newInstance(): AddPostDialog {
-            return AddPostDialog()
-        }
+        val TAG = AddPostDialog::class.java.simpleName
     }
 
-    private lateinit var resultListener: PostResultListener
+    private val viewModel: AddPostViewModel by lazy {
+        (activity as HomeActivity).getAddPostViewModel()
+    }
+
     private lateinit var binding: DialogAddPostBinding
     private lateinit var textInputEditText: TextInputEditText
     private lateinit var textWatcher: TextWatcher
-    private lateinit var viewModel: AddPostViewModel
-
-    // TODO callback function not interface
-    interface PostResultListener {
-        fun onPostSaved(postText: String, fileName: String)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        resultListener = context as PostResultListener
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DataBindingUtil.inflate(
@@ -48,7 +37,6 @@ class AddPostDialog : DialogFragment() {
             false
         )
 
-        viewModel = (activity as HomeActivity).getAddPostViewModel()
         binding.addPostViewModel = viewModel
 
         setupTextInput()
@@ -59,35 +47,35 @@ class AddPostDialog : DialogFragment() {
         builder.setTitle(title)
         builder.setMessage("What would you like to tell me?")
         builder.setPositiveButton("Save") { _, _ ->
-            viewModel.currentText.get()?.let {
-                resultListener.onPostSaved(it, viewModel.fileName)
-            } ?: run {
-                Log.e(TAG, "Post text is null.")
-            }
+            viewModel.onSave()
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
+            viewModel.onCancel()
             dialog?.dismiss()
         }
 
         return builder.create()
     }
 
-    override fun onStop() {
-        viewModel.onStop()
-        textInputEditText.removeTextChangedListener(textWatcher)
-        super.onStop()
-    }
-
     private fun setupTextInput() {
         textInputEditText = binding.root.findViewById(R.id.post_edit_text)
+        if (!TextUtils.isEmpty(viewModel.currentText.get())) {
+            textInputEditText.setText(viewModel.currentText.get())
+        }
         textWatcher = getTextWatcher()
         textInputEditText.addTextChangedListener(textWatcher)
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        viewModel.onDismiss()
+        textInputEditText.removeTextChangedListener(textWatcher)
+        super.onDismiss(dialog)
     }
 
     private fun getTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                viewModel.currentText.set(s.toString())
+                viewModel.onTextChanged(s.toString())
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

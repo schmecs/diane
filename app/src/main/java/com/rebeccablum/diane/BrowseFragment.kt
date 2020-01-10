@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rebeccablum.diane.adapters.PostsAdapter
 import com.rebeccablum.diane.databinding.FragmentBrowseBinding
+import com.rebeccablum.diane.media.PlaybackManager
 import com.rebeccablum.diane.models.Post
 
 class BrowseFragment : Fragment() {
@@ -42,7 +43,8 @@ class BrowseFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.viewModel?.let {
-            adapter = PostsAdapter()
+            // TODO how to handle null activity?
+            adapter = PostsAdapter(PlaybackManager.getInstance(this.activity!!.application))
             it.postData.observe(this, Observer<List<Post>> { postList: List<Post> ->
                 Log.d("Testing", postList.size.toString())
                 adapter.updatePostItems(postList)

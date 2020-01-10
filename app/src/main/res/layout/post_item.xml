@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="post"
-            type="com.rebeccablum.diane.models.Post" />
+            name="postItemViewModel"
+            type="com.rebeccablum.diane.viewmodels.PostItemViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -25,25 +25,71 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="8sp"
-                android:text="@{post.formattedDateString}"
+                android:text="@{postItemViewModel.post.formattedDateString}"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/post_content"
+                app:layout_constraintEnd_toStartOf="@id/post_text_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="1" />
 
             <TextView
-                android:id="@+id/post_content"
+                android:id="@+id/post_text_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="@{post.content}"
+                android:text="@{postItemViewModel.post.content}"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/post_timestamp"
                 app:layout_constraintStart_toEndOf="@id/post_timestamp"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/post_timestamp"
                 tools:text="Here is some post content." />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/play_pause_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:onClick="@{() -> postItemViewModel.togglePlayback()}"
+                android:src="@{postItemViewModel.isPlaying() ? @android:drawable/ic_media_pause : @android:drawable/ic_media_play}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/post_timestamp"
+                tools:src="@android:drawable/ic_media_play" />
+
+            <TextView
+                android:id="@+id/memo_current_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textSize="16sp"
+                android:text="@{postItemViewModel.currentPosition}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/play_pause_button"
+                app:layout_constraintTop_toBottomOf="@id/post_timestamp"
+                tools:text="--:--" />
+
+            <TextView
+                android:id="@+id/position_separator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text=" / "
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/memo_current_position"
+                app:layout_constraintTop_toBottomOf="@id/post_timestamp" />
+
+            <TextView
+                android:id="@+id/memo_track_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textSize="16sp"
+                android:text="@{postItemViewModel.trackDuration}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/position_separator"
+                app:layout_constraintTop_toBottomOf="@id/post_timestamp"
+                tools:text="--:--" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

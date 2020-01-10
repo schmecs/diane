@@ -32,6 +32,19 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/media_timer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="@{addPostViewModel.timerString}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_text_input"
+            tools:text="00:00"/>
+
         <Button
             android:id="@+id/record_button"
             android:layout_width="wrap_content"
@@ -41,7 +54,7 @@
             android:onClick="@{() -> addPostViewModel.toggleRecording(!addPostViewModel.isRecording())}"
             app:layout_constraintEnd_toStartOf="@id/vertical_guideline_50pct"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/post_text_input"
+            app:layout_constraintTop_toBottomOf="@+id/media_timer"
             tools:text="Start Recording" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -60,7 +73,7 @@
             android:onClick="@{() -> addPostViewModel.togglePlayback(!addPostViewModel.isPlaying())}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/vertical_guideline_50pct"
-            app:layout_constraintTop_toBottomOf="@+id/post_text_input"
+            app:layout_constraintTop_toBottomOf="@+id/media_timer"
             tools:text="Start Playback" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,10 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rebeccablum.diane.models.Post
 import com.rebeccablum.diane.databinding.PostItemBinding
+import com.rebeccablum.diane.media.PlaybackManager
+import com.rebeccablum.diane.models.Post
+import com.rebeccablum.diane.viewmodels.PostItemViewModel
 
-class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
+class PostsAdapter(private val playbackManager: PlaybackManager) :
+    RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
     private val posts = arrayListOf<Post>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -34,7 +37,7 @@ class PostsAdapter : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
     inner class PostViewHolder(private val binding: PostItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
-            binding.post = post
+            binding.postItemViewModel = PostItemViewModel(post, playbackManager)
         }
     }
 
