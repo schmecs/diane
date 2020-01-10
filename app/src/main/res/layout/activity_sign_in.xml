@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View"/>
 
         <variable
             name="viewModel"
@@ -15,9 +18,9 @@
 
         <TextView
             android:id="@+id/app_title_text"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="48dp"
             android:fontFamily="cursive"
             android:gravity="center"
             android:text="Diane"
@@ -32,9 +35,38 @@
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
             app:buttonSize="standard"
+            app:enabled="@{viewModel.isButtonEnabled}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/app_title_text" />
+
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:text="@{String.format(@string/welcome_user, viewModel.name)}"
+            android:gravity="center"
+            android:visibility="@{viewModel.isLoggedIn ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/google_sign_in_button"
+            tools:visibility="visible"
+            tools:text="Welcome, Agent Cooper"/>
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:text="Something went wrong with Google Sign-in"
+            android:textColor="@android:color/holo_red_light"
+            android:gravity="center"
+            android:visibility="@{viewModel.isInErrorState ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_text"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

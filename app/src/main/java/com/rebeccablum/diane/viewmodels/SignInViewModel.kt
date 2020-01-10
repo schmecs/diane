@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class SignInViewModel : ViewModel() {
 
+    val isButtonEnabled = ObservableBoolean(false)
     val isLoggedIn = ObservableBoolean(false)
     val isInErrorState = ObservableBoolean(false)
     val name = ObservableField("Agent Cooper")
